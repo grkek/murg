@@ -21,11 +21,15 @@ def threads : Array(Thread)
   threads
 end
 
-spawn do
-  console = Murg::Console.new
-  console.wait_for_input
-  exit
-end
+# Uncomment this line if you want to enable console which
+# pipes the input directly to Duktape engine.
+#
+# The console is not that great since the output is scrambled by the error logs of Duktape.
+#
+# spawn do
+#   console = Murg::Console.new
+#   console.wait_for_input
+# end
 
 builder = Murg::Builder.new
 builder.build_from_document(document: "#{__DIR__}/dist/index.html")
