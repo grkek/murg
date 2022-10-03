@@ -1,0 +1,25 @@
+name: murg
+version: 0.1.0
+
+authors:
+  - Giorgi Kavrelishvili <giorgi.kavrelishvili@pm.me>
+
+dependencies:
+  duktape:
+    github: jessedoyle/duktape.cr
+
+  gtk4:
+    github: hugopl/gtk4.cr
+
+  fancyline:
+    github: Papierkorb/fancyline
+    version: ~> 0.4.1
+
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 0.13.0
+
+crystal: 1.0.0
+
+license: MIT
