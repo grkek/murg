@@ -11,10 +11,6 @@ dependencies:
   gtk4:
     github: hugopl/gtk4.cr
 
-  fancyline:
-    github: Papierkorb/fancyline
-    version: ~> 0.4.1
-
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
