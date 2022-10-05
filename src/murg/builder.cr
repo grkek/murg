@@ -1,6 +1,3 @@
-require "gtk4"
-require "uuid"
-
 module Murg
   class Builder
     include Elements

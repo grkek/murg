@@ -16,28 +16,30 @@ module Murg
       macro register_component
       end
 
-      macro build_callback(callback_id, argument_size, callback)
+      macro build_callback(type, function_name, argument_size, callback)
         Engine.instance.sandbox.push_global_stash
         Engine.instance.sandbox.push_pointer(::Box.box({{callback}}))
-        Engine.instance.sandbox.put_prop_string(-2, {{callback_id}})
+        Engine.instance.sandbox.put_prop_string(-2, [{{type.stringify}}, {{function_name}}, {{argument_size}}.to_s].join)
         Engine.instance.sandbox.pop
 
-        Engine.instance.sandbox.push_string({{callback_id}})
-        LibDUK.push_c_function(Engine.instance.sandbox.ctx, build_c_function({{callback_id}}, {{argument_size}}), {{argument_size}})
+        Engine.instance.sandbox.push_string({{function_name}})
+        LibDUK.push_c_function(Engine.instance.sandbox.ctx, build_c_function({{type}}, {{function_name}}, {{argument_size}}), {{argument_size}})
 
-        available_callbacks.push({{callback_id}})
+        available_callbacks.push({{function_name}})
         Engine.instance.sandbox.put_prop(index)
       end
 
-      macro build_c_function(callback_id, argument_size)
+      macro build_c_function(type, function_name, argument_size)
         ->(pointer : Pointer(Void)) {
           env = ::Duktape::Sandbox.new(pointer)
 
           # Get the closure to call the crystal code form JS
           env.push_global_stash
-          env.get_prop_string(-1, {{callback_id}})
+          env.get_prop_string(-1, [{{type.stringify}}, {{function_name}}, {{argument_size}}].join)
           callable = ::Box(Proc(JSON::Any, JSON::Any)).unbox(env.get_pointer(-1))
           env.pop
+
+          env.dump!
 
           argument_size = {{argument_size}}
           encoded_data = env.json_encode(0) if argument_size

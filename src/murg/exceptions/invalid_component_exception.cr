@@ -1,5 +1,3 @@
-require "levenshtein"
-
 module Murg
   module Exceptions
     class InvalidComponentException < Exception
@@ -9,9 +7,9 @@ module Murg
 
         case match
         when String
-          super("Component `\033[1;33m#{tag_name}\033[0m` defined at `\033[1;37m#{position}\033[0m` is not valid!\n\n  Maybe you wanted to define the tag as: `\033[0;32m#{match}\033[0m` instead?\n\n")
+          super("Component `#{tag_name.colorize(:light_yellow)}` defined at `#{position.colorize(:white)}` is not valid, maybe you wanted to define the tag as: `#{match.colorize(:light_green)}` instead?")
         when Nil
-          super("Component `\033[1;33m#{tag_name}\033[0m` defined at `\033[1;37m#{position}\033[0m` is not valid!")
+          super("Component `#{tag_name.colorize(:light_yellow)}` defined at `#{position.colorize(:white)}` is not valid.")
         end
       end
     end

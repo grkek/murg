@@ -1,5 +1,3 @@
-require "duktape/runtime"
-require "../ext/**"
 require "./std/**"
 
 module Murg

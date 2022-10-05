@@ -2,9 +2,6 @@
 # Copyright (c) 2017 Jesse Doyle. All rights reserved.
 #
 # This is free software. Please see LICENSE for details.
-
-require "duktape"
-
 module Duktape
   module BuiltIn
     struct Print < Base
