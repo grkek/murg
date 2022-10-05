@@ -30,12 +30,14 @@ module Murg
       end
 
       def build_widget(parent : Gtk::Widget) : Gtk::Widget
+        available_callbacks = [] of String
         entry = Attributes::Entry.from_json(attributes.to_json)
         container_attributes = Murg::Attributes::Container.from_json(attributes.to_json)
 
         widget = Gtk::Entry.new(name: entry.id, text: entry.text, placeholder_text: entry.place_holder, invisible_char: entry.password_character.try(&.bytes.first.to_u32), visibility: entry.is_visible, halign: entry.horizontal_alignment, valign: entry.vertical_alignment)
 
-        register_component()
+        Macros::Entry.build_callbacks()
+
         register_events(widget)
         register_widget(widget)
         containerize(parent, widget, container_attributes)

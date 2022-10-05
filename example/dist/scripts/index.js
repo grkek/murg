@@ -6,11 +6,8 @@
  *
  */
 
-fs.sprintf(mainBox.availableCallbacks)
-fs.sprintf(mainWindow.availableCallbacks)
 fs.sprintf(clickMe.availableCallbacks)
 
 clickMe.buttonPress = function() {
-  mainWindow.setTitle(randomUUID4())
-  clickMe.setText(randomUUID4())
+  clickMe.setLabel(randomUUID4())
 }
