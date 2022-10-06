@@ -98,7 +98,7 @@ module Murg
         widget.add_controller(event_controller)
 
         event_controller = Gtk::EventControllerKey.new
-        event_controller.key_pressed_signal.connect(->(key_value : UInt32, key_code : UInt32, modifier_type : Gdk::ModifierType) {
+        event_controller.key_pressed_signal.connect(->(key_value : UInt32, _key_code : UInt32, _modifier_type : Gdk::ModifierType) {
           Engine.instance.handle_event(generic_attributes.id, "keyPressed", key_value)
 
           true

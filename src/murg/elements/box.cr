@@ -21,7 +21,6 @@ module Murg
       end
 
       def build_widget(parent : Gtk::Widget) : Gtk::Widget
-        available_callbacks = [] of String
         box = Attributes::Box.from_json(attributes.to_json)
         container_attributes = Murg::Attributes::Container.from_json(attributes.to_json)
 

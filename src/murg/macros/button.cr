@@ -2,6 +2,7 @@ module Murg
   module Macros
     module Button
       macro build_callbacks
+        available_callbacks = [] of String
         index = Engine.instance.sandbox.push_object
 
         get_label = ->(argument : JSON::Any) { JSON::Any.new(widget.label) }

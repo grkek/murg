@@ -23,7 +23,7 @@ module Murg
         ms = now.to_unix_ms
 
         String.build do |io|
-          len.times do |i|
+          len.times do |_i|
             mod = ms % ENCODING_LEN
             io << ENCODING[mod.to_i]
             ms = (ms - mod) / ENCODING_LEN
@@ -33,7 +33,7 @@ module Murg
 
       private def encode_random(len : Int32) : String
         String.build do |io|
-          len.times do |i|
+          len.times do |_i|
             rand = Random.rand(ENCODING_LEN)
             io << ENCODING[rand]
           end

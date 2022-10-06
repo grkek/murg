@@ -29,7 +29,6 @@ module Murg
       # Edge case for the application, since the Gtk::Application is not fully
       # Gtk::Widget compliant.
       def build_widget(parent : Gtk::Application) : Gtk::Widget
-        available_callbacks = [] of String
         window = Attributes::Window.from_json(attributes.to_json)
 
         widget = Gtk::ApplicationWindow.new(name: window.id, application: parent, title: window.title, default_width: window.width, default_height: window.height)
