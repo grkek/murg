@@ -34,18 +34,7 @@ shards install
 ```
 
 # Code example
-
-Add this to your application's `index.html`:
-
-```html
-<Application applicationId="com.murg.desktop">
-  <Window title="Untitled Window" width=800 height=600>
-    <Label>Hello, World!</Label>
-  </Window>
-</Application>
-```
-
-Add this to your application's `application.cr`:
+Add this to your `application.cr`:
 
 ```crystal
 require "murg"
@@ -53,9 +42,17 @@ require "murg"
 # Disable GC for because of invalid memory access bug.
 GC.disable
 
+html = <<-HTML
+  <Application applicationId="com.murg.application">
+    <Window title="Untitled">
+      <Label>Hello, World!</Label>
+    </Window>
+  </Application>
+HTML
+
 builder = Murg::Builder.new
 # Make sure you point the path the correct way.
-builder.build_from_document(document: "./index.html")
+builder.build_from_string(html)
 ```
 
 Compile the `application.cr` file.
