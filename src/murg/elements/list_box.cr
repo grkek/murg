@@ -22,7 +22,8 @@ module Murg
 
         widget = Gtk::ListBox.new(name: list_box.id, halign: list_box.horizontal_alignment, valign: list_box.vertical_alignment)
 
-        register_component()
+        Macros::ListBox.build_callbacks
+
         register_events(widget)
         register_widget(widget)
         containerize(parent, widget, container_attributes)

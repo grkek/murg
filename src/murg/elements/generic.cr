@@ -86,8 +86,6 @@ module Murg
         event_controller.event_signal.connect(after: true) do |event|
           case event.event_type
           when Gdk::EventType::KeyPress, Gdk::EventType::KeyRelease
-            # TODO: remove the disable for the motion notify event.
-          when Gdk::EventType::MotionNotify
           else
             Engine.instance.handle_event(generic_attributes.id, event.event_type.to_s.camelcase(lower: true), nil)
           end

@@ -22,7 +22,8 @@ module Murg
 
         widget = Gtk::Notebook.new(name: tab.id, halign: tab.horizontal_alignment, valign: tab.vertical_alignment)
 
-        register_component()
+        Macros::Tab.build_callbacks
+
         register_events(widget)
         register_widget(widget)
         containerize(parent, widget, container_attributes)

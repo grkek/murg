@@ -1,25 +1,8 @@
-.main-window {
+.window {
   background-color: black;
 }
 
-.main-box {
-  transition: all 1s ease;
-  background-color: rgb(28, 30, 39);
-}
-
-.click-me {
-  background-color: white;
-  color: black;
-  transition: 0.2s;
-}
-.click-me:hover {
-  background-color: green;
+.label {
   color: white;
-  transition: 0.2s;
-}
-
-.click-me:active {
-  background-color: black;
-  color: white;
-  transition: 0.2s;
+  font-size: 25px;
 }
