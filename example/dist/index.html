@@ -1,8 +1,20 @@
-<Application applicationId="com.monkeyshoulder.desktop">
-  <StyleSheet src="./example/dist/styles/index.css" />
-  <Script src="./example/dist/scripts/index.js"></Script>
+<Application applicationId="com.murg.desktop">
+  <StyleSheet>
+    .main-window {
+      background-color: black;
+    }
 
-  <Window id="mainWindow" className="window" title="Untitled Window" width=800 height=600>
-    <Label className="label">Hello, World!</Label>
+    .main-label {
+      color: white;
+      font-size: 25px;
+    }
+  </StyleSheet>
+
+  <Script>
+    mainWindow.motionNotify = function() { mainLabel.setLabel(randomUUID4()) }
+  </Script>
+
+  <Window id="mainWindow" className="main-window" title="Untitled Window" width=800 height=600>
+    <Label id="mainLabel" className="main-label">Hello, World!</Label>
   </Window>
 </Application>

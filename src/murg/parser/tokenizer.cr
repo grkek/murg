@@ -119,8 +119,6 @@ module Murg
             end
 
             nil
-          when "StyleSheet"
-            StyleSheet.new(attributes)
           when "Entry"
             Entry.new(attributes)
           when "Spinner"
@@ -179,6 +177,8 @@ module Murg
           case tag_name
           when "Script"
             Script.new(attributes, children)
+          when "StyleSheet"
+            StyleSheet.new(attributes, children)
           when "Application"
             Application.new(attributes, children)
           when "Window"

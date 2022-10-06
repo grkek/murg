@@ -105,9 +105,21 @@ module Murg
     # Use the Gtk::CssProvider to update the style context with the source of the CSS file.
     private def process_stylesheet(child)
       css_provider = Gtk::CssProvider.new
-      css_provider.load_from_path(child.attributes["src"].to_s)
-      display = Gdk::Display.default.not_nil!
 
+      if child.children.size != 0
+        first_child = child.children.first
+
+        case first_child
+        when Text
+          css_provider.load_from_data(first_child.content.bytes)
+        end
+      end
+
+      if path = child.attributes["src"]?
+        css_provider.load_from_path(path.to_s)
+      end
+
+      display = Gdk::Display.default.not_nil!
       Gtk::StyleContext.add_provider_for_display(display, css_provider, Gtk::STYLE_PROVIDER_PRIORITY_APPLICATION.to_u32)
     end
 
@@ -124,9 +136,11 @@ module Murg
           end
 
           if child.children.size != 0
-            case child
+            first_child = child.children.first
+
+            case first_child
             when Text
-              @scripts.push(child.data)
+              @scripts.push(first_child.content)
             end
           end
         end
