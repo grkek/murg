@@ -8,15 +8,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-12
 
     container:
       image: crystallang/crystal
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install GTK
-        run: apt install libgtk-4-dev
+        run: brew install gtk4
       - name: Install dependencies
         run: shards install
       - name: Run format check
