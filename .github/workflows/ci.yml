@@ -15,12 +15,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Install GI Repository
-        run: apt install libgirepository1.0-dev
-      - name: Install GLib
-        run: apt install libglib2.0-dev
-      - name: Install GObject
-        run: apt install libgobject2.0-dev
+      - name: Install GTK
+        run: apt install libgtk-4-dev
       - name: Install dependencies
         run: shards install
       - name: Run format check
