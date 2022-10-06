@@ -39,6 +39,8 @@ module Murg
             window.try(&.show)
           end
 
+          # Start the idle garbage collector.
+          IdleGC.start
           application.run
         else
           raise "The first component must always be an `<Application></Application>`."

@@ -5,6 +5,7 @@ require "gtk4"
 require "uuid"
 require "levenshtein"
 require "colorize"
+require "idle-gc"
 
 require "./murg/helpers/**"
 require "./murg/attributes/**"

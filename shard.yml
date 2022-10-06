@@ -11,6 +11,9 @@ dependencies:
   gtk4:
     github: hugopl/gtk4.cr
 
+  idle-gc:
+    github: compumike/idle-gc
+
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
