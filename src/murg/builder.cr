@@ -5,46 +5,50 @@ module Murg
     property scripts : Array(String) = [] of String
 
     # Create the main application, initialize the JavaScript context and build the components.
-    def build_from_document(document)
-      File.open(document) do |file|
-        document = file.gets_to_end
+    def build_from_string(string : String)
+      if string.size < 1
+        raise Exceptions::EmptyComponentException.new
+      end
 
-        if document.size < 1
-          raise Exceptions::EmptyComponentException.new
-        end
+      tokenizer = Parser::Tokenizer.new(string)
+      nodes = tokenizer.parse_nodes
 
-        tokenizer = Parser::Tokenizer.new(document)
-        nodes = tokenizer.parse_nodes
+      case nodes.first
+      when Application
+        application = Gtk::Application.new(application_id: nodes.first.as(Generic).attributes["applicationId"]?.to_s || ["com", "murg", UUID.random.hexstring].join("."))
 
-        case nodes.first
-        when Application
-          application = Gtk::Application.new(application_id: nodes.first.as(Generic).attributes["applicationId"]?.to_s || ["com", "murg", UUID.random.hexstring].join("."))
+        application.activate_signal.connect do
+          build_components(nodes.first, application)
 
-          application.activate_signal.connect do
-            build_components(nodes.first, application)
-
-            elements = nodes.first.children.reject! do |child|
-              child.kind != "Window"
-            end
-
-            child = elements.first.as(Window)
-
-            window = child.build_widget(application)
-            transpile_components(child, window)
-
-            @scripts.each do |script|
-              Duktape::Engine.instance.eval! script
-            end
-
-            window.try(&.show)
+          elements = nodes.first.children.reject! do |child|
+            child.kind != "Window"
           end
 
-          # Start the idle garbage collector.
-          IdleGC.start
-          application.run
-        else
-          raise "The first component must always be an `<Application></Application>`."
+          child = elements.first.as(Window)
+
+          window = child.build_widget(application)
+          transpile_components(child, window)
+
+          @scripts.each do |script|
+            Duktape::Engine.instance.eval! script
+          end
+
+          window.try(&.show)
         end
+
+        # Start the idle garbage collector.
+        IdleGC.start
+        application.run
+      else
+        raise "The first component must always be an `<Application></Application>`."
+      end
+    end
+
+    def build_from_file(file)
+      File.open(file) do |fp|
+        string = fp.gets_to_end
+
+        build_from_string(string)
       end
     end
 

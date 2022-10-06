@@ -4,4 +4,4 @@ require "../src/murg"
 GC.disable
 
 builder = Murg::Builder.new
-builder.build_from_document(document: "#{__DIR__}/dist/index.html")
+builder.build_from_file(file: "#{__DIR__}/dist/index.html")
