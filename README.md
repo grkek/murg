@@ -44,7 +44,7 @@ GC.disable
 
 html = <<-HTML
   <Application applicationId="com.murg.application">
-    <Window title="Untitled">
+    <Window title="Untitled Window">
       <Label>Hello, World!</Label>
     </Window>
   </Application>
