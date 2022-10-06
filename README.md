@@ -1,6 +1,6 @@
 # Murg
 
-[![Showcase](https://i.ibb.co/wdGhw8X/Screenshot-2021-06-02-at-20-31-51.png)](https://github.com/grkek/murg)
+[![Showcase](https://i.postimg.cc/RCKxYtZp/Screenshot-2022-10-06-at-17-14-42.png)](https://github.com/grkek/murg)
 
 **Notice:** This project is <ins>experimental</ins>.
 
