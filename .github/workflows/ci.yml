@@ -16,11 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install GI Repository
-        run: apt install libgirepository-1.0-dev
+        run: apt install libgirepository1.0-dev
       - name: Install GLib
-        run: apt install libglib-2.0-dev
+        run: apt install libglib2.0-dev
       - name: Install GObject
-        run: apt install libgobject-2.0-dev
+        run: apt install libgobject2.0-dev
       - name: Install dependencies
         run: shards install
       - name: Run format check
