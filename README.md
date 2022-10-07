@@ -12,7 +12,7 @@
 
 - The JavaScript engine is Duktape.
 
-- The CSS is limited to GTK4 specification.w
+- The CSS is limited to GTK4 specification.
 
 ## Installation
 
