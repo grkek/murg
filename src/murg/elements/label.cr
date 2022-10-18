@@ -19,7 +19,7 @@ module Murg
       def build_widget(parent : Gtk::Widget) : Gtk::Widget
         label = Attributes::Label.from_json(attributes.to_json)
         container_attributes = Murg::Attributes::Container.from_json(attributes.to_json)
-        text = @children[0].as(Text).content.to_s
+        text = children.first.as(Text).content.to_s if children.size != 0
 
         widget = Gtk::Label.new(name: label.id, label: text, halign: label.horizontal_alignment, valign: label.vertical_alignment, wrap: true)
 

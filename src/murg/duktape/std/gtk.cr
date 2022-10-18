@@ -44,7 +44,7 @@ module Murg
             env.call_success
           end
 
-          eval! <<-JS
+          sandbox.eval! <<-JS
             const gtk = {
               loadStyleSheet: function(path) { __std__load_style_sheet__(path); },
               loadStyleSheets: function(path, sheets) { __std__load_style_sheets__(path, sheets); }

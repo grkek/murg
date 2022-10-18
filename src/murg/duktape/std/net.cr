@@ -20,7 +20,7 @@ module Murg
             env.call_success
           end
 
-          eval! <<-JS
+          sandbox.eval! <<-JS
             const http = {
               get: function(path, params) { return __std__http_request__("GET", path, params); },
               post: function(path, params) { return __std__http_request__("POST", path, params); }

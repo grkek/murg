@@ -13,7 +13,7 @@ module Murg
             env.call_success
           end
 
-          eval! <<-JS
+          sandbox.eval! <<-JS
             const process = {
               exit : function (exitCode) {
                 __std__exit__(exitCode);

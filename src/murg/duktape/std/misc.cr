@@ -44,7 +44,7 @@ module Murg
             env.call_success
           end
 
-          eval! <<-JS
+          sandbox.eval! <<-JS
             function use(arg) {
               __std__use__(arg)
             }

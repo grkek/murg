@@ -4,10 +4,10 @@ module Murg
       include JSON::Serializable
 
       @[JSON::Field(key: "id")]
-      property id : String = Helpers::ULID.generate.downcase
+      property id : String = Helpers::Randomizer.random_string
 
       @[JSON::Field(key: "className")]
-      property class_name : String = UUID.random.to_s
+      property class_name : String = Helpers::Randomizer.random_string
 
       @[JSON::Field(key: "horizontalAlignment")]
       property horizontal_alignment : Gtk::Align = Gtk::Align::Baseline

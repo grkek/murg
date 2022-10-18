@@ -24,7 +24,7 @@ module Murg
         button = Attributes::Button.from_json(attributes.to_json)
         container_attributes = Murg::Attributes::Container.from_json(attributes.to_json)
 
-        text = children.first.as(Text).content.to_s
+        text = children.first.as(Text).content.to_s if children.size != 0
         widget = Gtk::Button.new(name: button.id, label: text, has_frame: button.has_frame, halign: button.horizontal_alignment, valign: button.vertical_alignment)
 
         Macros::Button.build_callbacks

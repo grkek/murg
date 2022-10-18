@@ -1,20 +1,6 @@
 <Application applicationId="com.murg.desktop">
-  <StyleSheet>
-    .main-window {
-      background-color: black;
-    }
+  <Script src="./example/dist/scripts/index.js"></Script>
 
-    .main-label {
-      color: white;
-      font-size: 25px;
-    }
-  </StyleSheet>
-
-  <Script>
-    mainWindow.motionNotify = function() { mainLabel.setLabel(randomUUID4()) }
-  </Script>
-
-  <Window id="mainWindow" className="main-window" title="Untitled Window" width=800 height=600>
-    <Label id="mainLabel" className="main-label">Hello, World!</Label>
+  <Window id="mainWindow" title="Untitled Window" width=800 height=600>
   </Window>
 </Application>

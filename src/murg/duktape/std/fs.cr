@@ -39,7 +39,7 @@ module Murg
             env.call_success
           end
 
-          eval! <<-JS
+          sandbox.eval! <<-JS
             const fs = {
               sprintf : function(args) { __std__print__(JSON.stringify(args)) },
               readFile : function (filePath) {

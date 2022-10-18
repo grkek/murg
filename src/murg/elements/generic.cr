@@ -11,6 +11,7 @@ module Murg
       getter attributes : Hash(String, JSON::Any)
 
       def initialize(@kind, @attributes, @children = [] of Node)
+        attributes.merge!({"id" => JSON::Any.new(Helpers::Randomizer.random_string)}) unless attributes["id"]?
       end
 
       macro register_component
@@ -142,7 +143,11 @@ module Murg
       private def containerize(parent, component, container_attributes)
         case parent
         when Gtk::Notebook
-          parent.append_page(component, nil)
+          if container_attributes.container_label
+            parent.append_page(component, Gtk::Label.new(label: container_attributes.container_label))
+          else
+            parent.append_page(component, nil)
+          end
         when Gtk::Box
           component.hexpand = container_attributes.expand
           component.vexpand = container_attributes.expand

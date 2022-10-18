@@ -8,17 +8,17 @@ module Murg
 
           sandbox.push_global_proc("__std__cpu_count__", 0) do |ptr|
             env = ::Duktape::Sandbox.new(ptr)
-            env.push_int(System.cpu_count())
+            env.push_int(System.cpu_count)
             env.call_success
           end
 
           sandbox.push_global_proc("__std__hostname__", 0) do |ptr|
             env = ::Duktape::Sandbox.new(ptr)
-            env.push_string(System.hostname())
+            env.push_string(System.hostname)
             env.call_success
           end
 
-          eval! <<-JS
+          sandbox.eval! <<-JS
             const system = {
               getCpuCount : function () {
                 return __std__cpu_count__();

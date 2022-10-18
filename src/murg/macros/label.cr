@@ -7,7 +7,7 @@ module Murg
 
         get_current_uri = ->(argument : JSON::Any) { JSON::Any.new(widget.current_uri) }
         get_ellipsize = ->(argument : JSON::Any) { JSON::Any.new(widget.ellipsize.to_s) }
-        get_justify = ->(argument : JSON::Any) { JSON::Any.new(widget.justify.to_s)  }
+        get_justify = ->(argument : JSON::Any) { JSON::Any.new(widget.justify.to_s) }
         get_label = ->(argument : JSON::Any) { JSON::Any.new(widget.label) }
         get_lines = ->(argument : JSON::Any) { JSON::Any.new(widget.lines.to_i64) }
         get_max_width_chars = ->(argument : JSON::Any) { JSON::Any.new(widget.max_width_chars.to_i64) }
@@ -27,7 +27,7 @@ module Murg
 
         # set_current_uri = ->(argument : JSON::Any) { widget.current_uri = argument.to_s; JSON::Any.new(widget.current_uri) }
         set_ellipsize = ->(argument : JSON::Any) { widget.ellipsize = Pango::EllipsizeMode.parse(argument.to_s); JSON::Any.new(widget.ellipsize.to_s) }
-        set_justify = ->(argument : JSON::Any) { widget.justify = Gtk::Justification.parse(argument.to_s); JSON::Any.new(widget.justify.to_s)  }
+        set_justify = ->(argument : JSON::Any) { widget.justify = Gtk::Justification.parse(argument.to_s); JSON::Any.new(widget.justify.to_s) }
         set_label = ->(argument : JSON::Any) { widget.label = argument.to_s; JSON::Any.new(widget.label) }
         set_lines = ->(argument : JSON::Any) { widget.lines = argument.as_i; JSON::Any.new(widget.lines.to_i64) }
         set_max_width_chars = ->(argument : JSON::Any) { widget.max_width_chars = argument.as_i; JSON::Any.new(widget.max_width_chars.to_i64) }

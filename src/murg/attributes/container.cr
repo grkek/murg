@@ -3,6 +3,9 @@ module Murg
     class Container
       include JSON::Serializable
 
+      @[JSON::Field(key: "containerLabel")]
+      property container_label : String?
+
       @[JSON::Field(key: "expand")]
       property expand : Bool = false
 
