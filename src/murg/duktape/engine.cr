@@ -23,7 +23,8 @@ module Murg
       def initialize
         @sandbox = ::Duktape::Sandbox.new
 
-        sandbox.eval!(File.read("#{__DIR__}/../scripts/babel.js"))
+        # Evaluate Babel source code for a modern JavaScript interface.
+        sandbox.eval!(Storage.get("babel.js").gets_to_end)
 
         misc()
         process()
@@ -33,13 +34,13 @@ module Murg
         system()
         document()
 
-        # * This is the method used to capture the required modules.
+        # This is the method used to capture the required modules by the require function.
         sandbox.eval!("const exports = {};")
 
         # TODO: Re-work the require function to have a better way of module identification.
         sandbox.eval! <<-JS
           const require = function(filePath) {
-            var fullPath = "{0}.js".format(filePath)
+            var fullPath = filePath + ".js"
 
             if(fs.fileExists(fullPath)) {
               var sourceCode = fs.readFile(fullPath)
@@ -47,7 +48,7 @@ module Murg
 
               return exports.default;
             } else {
-              throw "File doesn't exist, {0}".format(fullPath)
+              throw "File doesn't exist, " + fullPath
             }
           }
         JS
@@ -80,10 +81,15 @@ module Murg
       end
 
       def eval!(source : String)
-        # * Translate code from any paradigm to es2015 and evaluate it.
-        sandbox.eval!(["eval(Babel.transform(", source.to_json, ", {presets: ['es2015']}).code)"].join)
+        # Translate code from any paradigm to ES2015 and evaluate it,
+        # I do not know yet if double eval is an issue for performance.
+        sandbox.eval! transform_to(source: source, preset: "es2015")
       rescue exception
         Log.error(exception: exception) { source }
+      end
+
+      private def transform_to(source : String, preset : String)
+        ["eval(Babel.transform(", source.to_json, ", {presets: ['#{preset}']}).code)"].join
       end
     end
   end

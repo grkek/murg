@@ -2,5 +2,6 @@
 /lib/
 /bin/
 /.shards/
+/src/murg/support/babel.js
 
 /shard.lock

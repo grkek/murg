@@ -58,7 +58,7 @@ builder.build_from_string(html)
 Compile the `application.cr` file.
 
 ```bash
-crystal run example/application.cr -Dpreview_mt --error-trace
+crystal run application.cr -Dpreview_mt --error-trace
 ```
 
 And you should have a GUI window with a "Hello, World!" text.

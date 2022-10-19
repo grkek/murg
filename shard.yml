@@ -14,6 +14,12 @@ dependencies:
   idle-gc:
     github: compumike/idle-gc
 
+  baked_file_system:
+    github: schovi/baked_file_system
+
+scripts:
+  postinstall: "make install"
+
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba

@@ -25,32 +25,9 @@ module Murg
             env.call_success
           end
 
-          use_proc = ->(path : String) {
-            sandbox.eval File.read(path)
-          }
-
-          sandbox.push_heap_stash
-          sandbox.push_pointer(::Box.box(use_proc))
-          sandbox.put_prop_string(-2, "__std__use__")
-
-          sandbox.push_global_proc("__std__use__", 1) do |ptr|
-            env = ::Duktape::Sandbox.new(ptr)
-            env.push_heap_stash
-            env.get_prop_string(-1, "__std__use__")
-            proc = ::Box(Proc(String, String)).unbox(env.get_pointer(-1))
-            path = env.get_string(0).not_nil!
-            pointer = proc.call(path)
-
-            env.call_success
-          end
-
           sandbox.eval! <<-JS
-            function use(arg) {
-              __std__use__(arg)
-            }
-
-            function randomUUID4(){
-              return __std__random_uuid4__()
+            const random = {
+              uuid: function() { return __std__random_uuid4__() },
             }
 
             function __std__value_of__(value) {
