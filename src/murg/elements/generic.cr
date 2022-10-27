@@ -91,7 +91,7 @@ module Murg
             Engine.instance.handle_event(generic_attributes.id, event.event_type.to_s.camelcase(lower: true), nil)
           end
 
-          true
+          false
         end
 
         widget.add_controller(event_controller)
