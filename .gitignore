@@ -3,5 +3,6 @@
 /bin/
 /.shards/
 /src/murg/support/babel.js
+/src/murg/support/core.js
 
 /shard.lock

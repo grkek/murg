@@ -10,7 +10,7 @@
 
 - The compiler supports CSS and JavaScript compilation, which glues the components and makes the UI interactive.
 
-- The JavaScript engine is Duktape.
+- The JavaScript engine is Duktape, it supports Babel 6.26.0 and CoreJS 2.6.11.
 
 - The CSS is limited to GTK4 specification.
 

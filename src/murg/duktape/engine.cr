@@ -10,6 +10,7 @@ module Murg
       include Std::Misc
       include Std::System
       include Std::Document
+      include Std::Components
 
       property registered_modules : Array(String) = [] of String
       property sandbox : ::Duktape::Sandbox
@@ -23,6 +24,9 @@ module Murg
       def initialize
         @sandbox = ::Duktape::Sandbox.new
 
+        # Evaluate CoreJS source code for a modern JavaScript interface.
+        sandbox.eval!(Storage.get("core.js").gets_to_end)
+
         # Evaluate Babel source code for a modern JavaScript interface.
         sandbox.eval!(Storage.get("babel.js").gets_to_end)
 
@@ -33,6 +37,7 @@ module Murg
         fs()
         system()
         document()
+        components()
 
         # This is the method used to capture the required modules by the require function.
         sandbox.eval!("const exports = {};")
