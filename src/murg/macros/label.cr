@@ -3,6 +3,7 @@ module Murg
     module Label
       macro build_callbacks
         available_callbacks = [] of String
+
         index = Engine.instance.sandbox.push_object
 
         get_current_uri = ->(argument : JSON::Any) { JSON::Any.new(widget.current_uri) }

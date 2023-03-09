@@ -2,6 +2,7 @@ module Murg
   class Builder
     include Elements
 
+    property socket : UNIXSocket = UNIXSocket.new(JavaScript::Engine.instance.path)
     property scripts : Array(String) = [] of String
 
     # Create the main application, initialize the JavaScript context and build the components.
@@ -30,7 +31,15 @@ module Murg
           transpile_components(child, window)
 
           @scripts.each do |script|
-            Duktape::Engine.instance.eval! script
+            request = JavaScript::Message::Request.new(
+              id: UUID.random.to_s,
+              directory: __DIR__,
+              file: __FILE__,
+              line: __LINE__,
+              processing: JavaScript::Message::Processing::RAW,
+              source_code: script)
+
+            socket.puts(request.to_json)
           end
 
           window.try(&.show)

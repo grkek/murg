@@ -3,9 +3,10 @@ module Murg
     module Button
       macro build_callbacks
         available_callbacks = [] of String
+
         index = Engine.instance.sandbox.push_object
 
-        get_label = ->(argument : JSON::Any) { JSON::Any.new(widget.label) }
+        get_label : Proc(JSON::Any, JSON::Any) = ->(argument : JSON::Any) { JSON::Any.new(widget.label) }
         set_label = ->(argument : JSON::Any) { widget.label = argument.to_s; JSON::Any.new(widget.label) }
         get_has_frame = ->(argument : JSON::Any) { JSON::Any.new(widget.has_frame) }
         set_has_frame = ->(argument : JSON::Any) { widget.has_frame = argument.as_bool; JSON::Any.new(widget.has_frame) }

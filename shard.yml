@@ -6,7 +6,8 @@ authors:
 
 dependencies:
   duktape:
-    github: jessedoyle/duktape.cr
+    github: grkek/duktape.cr
+    branch: master
 
   gtk4:
     github: hugopl/gtk4.cr

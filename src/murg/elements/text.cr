@@ -18,7 +18,8 @@ module Murg
             hash = match.to_h
 
             begin
-              @content = content.gsub(hash[0].not_nil!, Duktape::Engine.instance.eval!("__std__value_of__(#{hash[1].not_nil!})").to_s)
+              # TODO: Refactor and use the new engine.
+              # @content = content.gsub(hash[0].not_nil!, Duktape::Engine.instance.eval!("__std__value_of__(#{hash[1].not_nil!})").to_s)
             rescue ex : Exception
               @content = content
               raise Exceptions::RuntimeException.new("An exception occured while evaluating a variable format routine: #{ex}")

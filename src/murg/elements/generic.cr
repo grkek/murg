@@ -5,10 +5,12 @@ module Murg
     class Generic < Node
       include JSON::Serializable
 
-      alias Engine = Duktape::Engine
+      alias Engine = JavaScript::Engine
 
       getter kind : String
       getter attributes : Hash(String, JSON::Any)
+
+      property socket : UNIXSocket = UNIXSocket.new(JavaScript::Engine.instance.path)
 
       def initialize(@kind, @attributes, @children = [] of Node)
         attributes.merge!({"id" => JSON::Any.new(Helpers::Randomizer.random_string)}) unless attributes["id"]?
@@ -88,7 +90,7 @@ module Murg
           case event.event_type
           when Gdk::EventType::KeyPress, Gdk::EventType::KeyRelease
           else
-            Engine.instance.handle_event(generic_attributes.id, event.event_type.to_s.camelcase(lower: true), nil)
+            handle_event(generic_attributes.id, event.event_type.to_s.camelcase(lower: true), nil)
           end
 
           false
@@ -98,7 +100,7 @@ module Murg
 
         event_controller = Gtk::EventControllerKey.new
         event_controller.key_pressed_signal.connect(->(key_value : UInt32, _key_code : UInt32, _modifier_type : Gdk::ModifierType) {
-          Engine.instance.handle_event(generic_attributes.id, "keyPressed", key_value)
+          handle_event(generic_attributes.id, "keyPressed", key_value)
 
           true
         })
@@ -111,27 +113,23 @@ module Murg
         Registry.instance.register(generic_attributes.id, widget)
       end
 
-      # TODO: Substitution can be done in a different way, currently this does not work.
-      # def substitution
-      #   attributes.each do |key, value|
-      #     matches = value.to_s.scan(/\${(.*?)}/)
+      private def handle_event(id : String, event_name : String, arguments)
+        if arguments
+          source_code = [id, ".", event_name, "(", arguments.to_json, ")"].join
+        else
+          source_code = [id, ".", event_name, "()"].join unless arguments
+        end
 
-      #     case matches.size
-      #     when 0
-      #       attributes[key] = value
-      #     else
-      #       matches.each do |match|
-      #         hash = match.to_h
+        request = JavaScript::Message::Request.new(
+          id: UUID.random.to_s,
+          directory: __DIR__,
+          file: __FILE__,
+          line: __LINE__,
+          processing: JavaScript::Message::Processing::EVENT,
+          source_code: source_code)
 
-      #         begin
-      #           attributes[key] = JSON::Any.new(value.to_s.gsub(hash[0].not_nil!, Engine.instance.eval!("__std__value_of__(#{hash[1].not_nil!})").to_s))
-      #         rescue ex : Exception
-      #           raise Exceptions::RuntimeException.new("An exception occured while evaluating a variable format routine: #{ex}")
-      #         end
-      #       end
-      #     end
-      #   end
-      # end
+        socket.puts(request.to_json)
+      end
 
       private def add_class_to_css(widget, class_name)
         if class_name

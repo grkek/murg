@@ -3,6 +3,7 @@ module Murg
     module TextView
       macro build_callbacks
         available_callbacks = [] of String
+
         index = Engine.instance.sandbox.push_object
 
         # TODO: Add callbacks for the text_view widget.

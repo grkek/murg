@@ -3,6 +3,7 @@ module Murg
     module Window
       macro build_callbacks
         available_callbacks = [] of String
+
         index = Engine.instance.sandbox.push_object
 
         get_id = ->(argument : JSON::Any) { JSON::Any.new(widget.id.to_i64) }
