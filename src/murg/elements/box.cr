@@ -29,10 +29,11 @@ module Murg
         Macros::Box.build_callbacks
 
         register_events(widget)
-        register_widget(widget)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, box.class_name)
 
+
+        register_component(widget, box.class_name)
         widget
       end
     end

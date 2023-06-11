@@ -8,7 +8,7 @@ module Murg
         include JSON::Serializable
 
         @[JSON::Field(key: "state")]
-        property state : Bool = false
+        property? state : Bool = false
       end
     end
 
@@ -24,12 +24,12 @@ module Murg
         switch = Attributes::Switch.from_json(attributes.to_json)
         container_attributes = Murg::Attributes::Container.from_json(attributes.to_json)
 
-        widget = Gtk::Switch.new(name: switch.id, halign: switch.horizontal_alignment, valign: switch.vertical_alignment, state: switch.state)
+        widget = Gtk::Switch.new(name: switch.id, halign: switch.horizontal_alignment, valign: switch.vertical_alignment, state: switch.state?)
 
         Macros::Switch.build_callbacks
 
         register_events(widget)
-        register_widget(widget)
+        register_component(widget, switch.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, switch.class_name)
 

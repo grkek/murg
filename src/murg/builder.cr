@@ -32,7 +32,7 @@ module Murg
 
           @scripts.each do |script|
             request = JavaScript::Message::Request.new(
-              id: UUID.random.to_s,
+              id: window.name,
               directory: __DIR__,
               file: __FILE__,
               line: __LINE__,
@@ -132,8 +132,9 @@ module Murg
         css_provider.load_from_path(path.to_s)
       end
 
-      display = Gdk::Display.default.not_nil!
-      Gtk::StyleContext.add_provider_for_display(display, css_provider, Gtk::STYLE_PROVIDER_PRIORITY_APPLICATION.to_u32)
+      if display = Gdk::Display.default
+        Gtk::StyleContext.add_provider_for_display(display, css_provider, Gtk::STYLE_PROVIDER_PRIORITY_APPLICATION.to_u32)
+      end
     end
 
     # Build components from the main document model, start with either a StyleSheet component or the Window component.

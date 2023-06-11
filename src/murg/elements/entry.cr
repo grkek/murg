@@ -17,7 +17,7 @@ module Murg
         property password_character : String?
 
         @[JSON::Field(key: "isVisible")]
-        property is_visible : Bool = true
+        property? visible : Bool = true
       end
     end
 
@@ -33,12 +33,12 @@ module Murg
         entry = Attributes::Entry.from_json(attributes.to_json)
         container_attributes = Murg::Attributes::Container.from_json(attributes.to_json)
 
-        widget = Gtk::Entry.new(name: entry.id, text: entry.text, placeholder_text: entry.place_holder, invisible_char: entry.password_character.try(&.bytes.first.to_u32), visibility: entry.is_visible, halign: entry.horizontal_alignment, valign: entry.vertical_alignment)
+        widget = Gtk::Entry.new(name: entry.id, text: entry.text, placeholder_text: entry.place_holder, invisible_char: entry.password_character.try(&.bytes.first.to_u32), visibility: entry.visible?, halign: entry.horizontal_alignment, valign: entry.vertical_alignment)
 
         Macros::Entry.build_callbacks
 
         register_events(widget)
-        register_widget(widget)
+        register_component(widget, entry.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, entry.class_name)
 

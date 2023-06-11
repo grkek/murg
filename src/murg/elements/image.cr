@@ -35,7 +35,7 @@ module Murg
         Macros::Image.build_callbacks
 
         register_events(widget)
-        register_widget(widget)
+        register_component(widget, image.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, image.class_name)
 

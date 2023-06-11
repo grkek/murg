@@ -26,7 +26,7 @@ module Murg
         Macros::Label.build_callbacks
 
         register_events(widget)
-        register_widget(widget)
+        register_component(widget, label.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, label.class_name)
 

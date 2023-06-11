@@ -8,7 +8,7 @@ module Murg
         include JSON::Serializable
 
         @[JSON::Field(key: "hasFrame")]
-        property has_frame : Bool = false
+        property? has_frame : Bool = false
       end
     end
 
@@ -25,15 +25,15 @@ module Murg
         container_attributes = Murg::Attributes::Container.from_json(attributes.to_json)
 
         text = children.first.as(Text).content.to_s if children.size != 0
-        widget = Gtk::Button.new(name: button.id, label: text, has_frame: button.has_frame, halign: button.horizontal_alignment, valign: button.vertical_alignment)
+        widget = Gtk::Button.new(name: button.id, label: text, has_frame: button.has_frame?, halign: button.horizontal_alignment, valign: button.vertical_alignment)
 
         Macros::Button.build_callbacks
 
         register_events(widget)
-        register_widget(widget)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, button.class_name)
 
+        register_component(widget, button.class_name)
         widget
       end
     end

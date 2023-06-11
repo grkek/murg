@@ -7,10 +7,10 @@ module Murg
       property container_label : String?
 
       @[JSON::Field(key: "expand")]
-      property expand : Bool = false
+      property? expand : Bool = false
 
       @[JSON::Field(key: "fill")]
-      property fill : Bool = false
+      property? fill : Bool = false
 
       @[JSON::Field(key: "padding")]
       property padding : Int32 = 0

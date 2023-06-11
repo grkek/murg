@@ -7,7 +7,7 @@ module Murg
         property sandbox : Duktape::Sandbox
 
         def initialize(@sandbox : Duktape::Sandbox)
-          register_print
+          @sandbox.eval_mutex! "std.minuscule = {};"
         end
 
         def name : String
@@ -19,30 +19,22 @@ module Murg
         end
 
         def description : String
-          "Minuscule functionality to help with development."
+          "Minuscule module allows the user to use helpers."
         end
 
-        private def register_print
-          sandbox.push_global_proc("_print", LibDUK::VARARGS) do |ptr|
-            env = ::Duktape::Sandbox.new ptr
-            nargs = env.get_top
-            output = String.build do |str|
-              nargs.times do |index|
-                str << " " unless index == 0
-                str << env.safe_to_string index
-              end
-            end
+        def definitions : Array(Definition)
+          @sandbox.push_global_proc("stdMinusculeUuid", 1) do |ptr|
+            env = ::Duktape::Sandbox.new(ptr)
 
-            puts output
-
-            env.return_undefined
+            env.push_string(UUID.random.to_s)
+            env.call_success
           end
-        end
 
-        def module_definition : String
-          <<-JS
-            {};
+          @sandbox.eval_mutex! <<-JS
+            std.minuscule.uuid = function() { return stdMinusculeUuid(); };
           JS
+
+          [] of Definition
         end
       end
     end

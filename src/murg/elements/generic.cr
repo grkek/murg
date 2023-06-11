@@ -84,13 +84,21 @@ module Murg
 
       private def register_events(widget : Gtk::Widget)
         event_controller = Gtk::EventControllerLegacy.new
-        generic_attributes = Murg::Attributes::Generic.from_json(attributes.to_json)
 
         event_controller.event_signal.connect(after: true) do |event|
           case event.event_type
           when Gdk::EventType::KeyPress, Gdk::EventType::KeyRelease
           else
-            handle_event(generic_attributes.id, event.event_type.to_s.camelcase(lower: true), nil)
+            event_name = event.event_type.to_s.camelcase(lower: true)
+
+            case event_name
+            when "buttonPress"
+              handle_event(widget.name, "onPress", nil)
+            when "buttonRelease"
+              handle_event(widget.name, "onRelease", nil)
+            else
+              handle_event(widget.name, event_name, nil)
+            end
           end
 
           false
@@ -100,7 +108,7 @@ module Murg
 
         event_controller = Gtk::EventControllerKey.new
         event_controller.key_pressed_signal.connect(->(key_value : UInt32, _key_code : UInt32, _modifier_type : Gdk::ModifierType) {
-          handle_event(generic_attributes.id, "keyPressed", key_value)
+          handle_event(widget.name, "onKeyPress", key_value)
 
           true
         })
@@ -108,20 +116,19 @@ module Murg
         widget.add_controller(event_controller)
       end
 
-      private def register_widget(widget : Gtk::Widget)
-        generic_attributes = Murg::Attributes::Generic.from_json(attributes.to_json)
-        Registry.instance.register(generic_attributes.id, widget)
+      private def register_component(widget : Gtk::Widget, class_name : String)
+        Registry.instance.register(Component.new(id: widget.name, class_name: class_name, widget: widget))
       end
 
       private def handle_event(id : String, event_name : String, arguments)
         if arguments
-          source_code = [id, ".", event_name, "(", arguments.to_json, ")"].join
+          source_code = [id, ".", "properties", ".", event_name, "(", arguments.to_json, ")"].join
         else
-          source_code = [id, ".", event_name, "()"].join unless arguments
+          source_code = [id, ".", "properties", ".", event_name, "()"].join unless arguments
         end
 
         request = JavaScript::Message::Request.new(
-          id: UUID.random.to_s,
+          id: id,
           directory: __DIR__,
           file: __FILE__,
           line: __LINE__,
@@ -134,7 +141,7 @@ module Murg
       private def add_class_to_css(widget, class_name)
         if class_name
           context = widget.style_context
-          context.add_class(class_name.not_nil!)
+          context.add_class(class_name)
         end
       end
 
@@ -147,8 +154,8 @@ module Murg
             parent.append_page(component, nil)
           end
         when Gtk::Box
-          component.hexpand = container_attributes.expand
-          component.vexpand = container_attributes.expand
+          component.hexpand = container_attributes.expand?
+          component.vexpand = container_attributes.expand?
 
           margin = container_attributes.padding
           component.margin_top = margin

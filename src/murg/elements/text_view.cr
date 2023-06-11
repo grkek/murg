@@ -28,7 +28,7 @@ module Murg
         Macros::TextView.build_callbacks
 
         register_events(widget)
-        register_widget(widget)
+        register_component(widget, class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, class_name)
 

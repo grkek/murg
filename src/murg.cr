@@ -7,6 +7,7 @@ require "levenshtein"
 require "colorize"
 require "idle-gc"
 require "baked_file_system"
+require "non-blocking-spawn"
 require "socket"
 
 require "./murg/storage"

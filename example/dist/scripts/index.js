@@ -1,4 +1,9 @@
-// Create a label and attach it to the main window automatically.
+// Create a button with a "Hello, World!" text in the middle.
 
-mainWindow.focusChange = function() {}
-mainWindow.motionNotify = function() {}
+let button = std.element.button.createLabel(std.element.getElementById("mainWindow"), "Hello, World!");
+
+button.properties.onPress = function() {
+  button.setLabel(std.minuscule.uuid());
+}
+
+console.log(button)

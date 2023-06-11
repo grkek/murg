@@ -6,7 +6,7 @@ module Murg
 
         index = Engine.instance.sandbox.push_object
 
-        get_id = ->(argument : JSON::Any) { JSON::Any.new(widget.id.to_i64) }
+        # get_id = ->(argument : JSON::Any) { JSON::Any.new(widget.id.to_i64) }
         get_title = ->(argument : JSON::Any) { JSON::Any.new(widget.title) }
 
         set_title = ->(argument : JSON::Any) { widget.title = argument.to_s; JSON::Any.new(widget.title) }
@@ -14,7 +14,11 @@ module Murg
         maximize = ->(argument : JSON::Any) { widget.maximize; JSON::Any.new(widget.maximized?) }
         minimize = ->(argument : JSON::Any) { widget.minimize; JSON::Any.new(nil) }
 
-        build_callback("getId", 0, get_id)
+        # set_id = ->(argument : JSON::Any) { Murg::Registry.instance.update(window.id, argument.to_s); argument }
+
+        # build_callback("setId", 1, set_id)
+        #build_callback("getId", 0, get_id)
+
         build_callback("getTitle", 0, get_title)
 
         build_callback("setTitle", 1, set_title)
@@ -23,7 +27,7 @@ module Murg
         build_callback("minimize", 0, minimize)
 
         Engine.instance.sandbox.put_global_string(window.id)
-        Engine.instance.register_component(id: window.id, type: kind, class_name: window.class_name, available_callbacks: available_callbacks)
+        # Engine.instance.register_component(id: window.id, type: kind, class_name: window.class_name, available_callbacks: available_callbacks)
       end
     end
   end

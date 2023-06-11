@@ -38,7 +38,7 @@ module Murg
         Macros::Window.build_callbacks
 
         register_events(widget)
-        register_widget(widget)
+        register_component(widget, window.class_name)
         add_class_to_css(widget, window.class_name)
 
         widget

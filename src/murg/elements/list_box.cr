@@ -25,7 +25,7 @@ module Murg
         Macros::ListBox.build_callbacks
 
         register_events(widget)
-        register_widget(widget)
+        register_component(widget, list_box.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, list_box.class_name)
 

@@ -45,6 +45,9 @@ module Murg
         set_wrap_mode = ->(argument : JSON::Any) { widget.wrap_mode = Pango::WrapMode.parse(argument.to_s); JSON::Any.new(widget.wrap_mode.to_s) }
         set_xalign = ->(argument : JSON::Any) { widget.xalign = argument.as_f32; JSON::Any.new(widget.xalign) }
         set_yalign = ->(argument : JSON::Any) { widget.yalign = argument.as_f32; JSON::Any.new(widget.yalign) }
+        # set_id = ->(argument : JSON::Any) { Murg::Registry.instance.update(label.id, argument.to_s); argument }
+
+        # build_callback("setId", 1, set_id)
 
         build_callback("getCurrentUri", 0, get_current_uri)
         build_callback("getEllipsize", 0, get_ellipsize)
@@ -83,8 +86,9 @@ module Murg
         build_callback("setXAlign", 1, set_xalign)
         build_callback("setYAlign", 1, set_yalign)
 
+
         Engine.instance.sandbox.put_global_string(label.id)
-        Engine.instance.register_component(id: label.id, type: kind, class_name: label.class_name, available_callbacks: available_callbacks)
+        # Engine.instance.register_component(id: label.id, type: kind, class_name: label.class_name, available_callbacks: available_callbacks)
       end
     end
   end

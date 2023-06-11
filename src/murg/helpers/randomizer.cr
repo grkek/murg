@@ -6,7 +6,7 @@ module Murg
 
         String.build(size) do |io|
           size.times do
-            io << charset.sample(Random)
+            io << charset.sample(Random::DEFAULT)
           end
         end
       end

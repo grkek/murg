@@ -25,7 +25,7 @@ module Murg
         Macros::ScrolledWindow.build_callbacks
 
         register_events(widget)
-        register_widget(widget)
+        register_component(widget, scrolled_window.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, scrolled_window.class_name)
 

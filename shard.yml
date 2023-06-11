@@ -18,6 +18,9 @@ dependencies:
   baked_file_system:
     github: schovi/baked_file_system
 
+  non-blocking-spawn:
+    github: GeopJr/non-blocking-spawn
+
 scripts:
   postinstall: "make install"
 

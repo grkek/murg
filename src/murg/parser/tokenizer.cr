@@ -45,7 +45,7 @@ module Murg
         output
       end
 
-      def next_while(&blk)
+      def next_while(&)
         result = ""
 
         while !eof? && yield peek
@@ -67,7 +67,7 @@ module Murg
         end
       end
 
-      def is_closing_tag?
+      def closing_tag?
         starts_with?("</")
       end
 
@@ -288,7 +288,7 @@ module Murg
         loop do
           skip_whitespace
 
-          if eof? || is_closing_tag?
+          if eof? || closing_tag?
             break
           end
 

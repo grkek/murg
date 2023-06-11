@@ -3,6 +3,7 @@ module Murg
     class Engine
       @@instance = new
 
+      mutex : Mutex
       server : UNIXServer
 
       getter sandbox : Duktape::Sandbox
@@ -14,23 +15,32 @@ module Murg
 
       def initialize
         @sandbox = Duktape::Sandbox.new
+
+        @mutex = Mutex.new(:reentrant)
         @server = UNIXServer.new(path)
 
         # Evaluate CoreJS source code for a modern JavaScript interface.
-        @sandbox.eval! Storage.get("core.js").gets_to_end
+        @sandbox.eval_mutex! Storage.get("core.js").gets_to_end
 
         # Evaluate Babel source code for a modern JavaScript interface.
-        @sandbox.eval! Storage.get("babel.js").gets_to_end
+        @sandbox.eval_mutex! Storage.get("babel.js").gets_to_end
+
+        # Create a global variable for the standard library.
+        @sandbox.eval_mutex! "const std = {};"
 
         # Initialize the standard library for JavaScript.
-        modules = [
-          StandardLibrary::Document,
-          StandardLibrary::Minuscule,
-        ]
+        modules = [StandardLibrary::Element, StandardLibrary::Minuscule]
 
         modules.each do |library_module|
           instance = library_module.new(@sandbox)
-          @sandbox.eval! ["const", instance.module_name, "=", instance.module_definition].join(" ")
+
+          instance.definitions.each do |definition|
+            begin
+              definition.register_definitions
+            rescue exception
+              Log.error(exception: exception) { "Failed to register #{instance.name} module" }
+            end
+          end
         end
 
         sandbox.eval!("const exports = {};")
@@ -65,32 +75,25 @@ module Murg
         loop do
           request = Message::Request.from_json(client.gets || raise "Empty message provided to the JavaScript engine")
 
-          if source_code = request.source_code
-            begin
-              eval source_code
-            rescue exception
-              response = Message::Response.new(request, exception)
+          @mutex.synchronize do
+            if request.processing == JavaScript::Message::Processing::EVENT
+              Registry.instance.process_event(request.id)
+            end
 
-              spawn do
-                client.puts(response.to_json)
+            if source_code = request.source_code
+              begin
+                Log.debug { "Evaluating code from #{request.id}, #{request.file}:#{request.line}, #{request.source_code}" }
+                eval! source_code
+              rescue exception
+                Log.debug(exception: exception) { exception.message }
               end
             end
           end
         end
       end
 
-      private def eval(source_code : String, preset : String = "es2015")
-        @sandbox.eval! source_code
-      rescue exception
-        Log.error(exception: exception) { source_code }
-      end
-
-      def register_component(id : String, type : String, class_name : String, available_callbacks : Array(String))
-        metadata = {id: id, type: type, className: class_name, availableCallbacks: available_callbacks}
-
-        metadata.keys.each do |key|
-          eval [id, ".", key.to_s, "=", metadata[key].to_json].join
-        end
+      private def eval!(source_code : String, preset : String = "es2015")
+        @sandbox.eval_mutex! ["eval(Babel.transform(", source_code.to_json, ", {presets: ['#{preset}']}).code)"].join
       end
     end
   end

@@ -6,14 +6,31 @@ module Murg
       @@instance
     end
 
-    property registered_widgets : Helpers::Synchronized(Hash(String, Gtk::Widget)) = Helpers::Synchronized(Hash(String, Gtk::Widget)).new
+    property registered_components : Helpers::Synchronized(Hash(String, Murg::Component)) = Helpers::Synchronized(Hash(String, Murg::Component)).new
 
-    def register(id : String, widget : Gtk::Widget)
-      registered_widgets[id] = widget
+    def process_event(id : String)
+      component = registered_components[id]
+
+      component.properties do |properties|
+      end
+    end
+
+    def register(component : Murg::Component)
+      component.properties do |properties|
+        properties["motionNotify"] = JSON::Any.new("function() {}")
+        properties["focusChange"] = JSON::Any.new("function() {}")
+
+        properties["onPress"] = JSON::Any.new("function() {}")
+        properties["onRelease"] = JSON::Any.new("function() {}")
+
+        properties["onKeyPress"] = JSON::Any.new("function() {}")
+      end
+
+      registered_components[component.id] = component
     end
 
     def unregister(id : String)
-      registered_widgets.delete(id)
+      registered_components.delete(id)
     end
   end
 end

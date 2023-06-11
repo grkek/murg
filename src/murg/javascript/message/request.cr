@@ -20,9 +20,10 @@ module Murg
         property processing : Processing
 
         @[JSON::Field(key: "sourceCode")]
-        property source_code : String?
+        property source_code : String
 
-        def initialize(@id : String, @directory : String, @file : String, @line : Int32, @processing : Processing, @source_code : String?)
+        def initialize(@id : String, @directory : String, @file : String, @line : Int32, @processing : Processing, source_code : String?)
+          @source_code = source_code || "/* It is hard to think when my mind goes blank */"
         end
       end
     end

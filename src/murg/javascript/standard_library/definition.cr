@@ -1,12 +1,12 @@
 module Murg
   module JavaScript
     module StandardLibrary
-      abstract class Module
+      abstract class Definition
         abstract def name : String
         abstract def description : String
 
-        abstract def module_name : String
-        abstract def definitions : Array(Definition)
+        abstract def definition_name : String
+        abstract def register_definitions
       end
     end
   end

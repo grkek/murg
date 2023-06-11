@@ -6,7 +6,7 @@ module Murg
 
         index = Engine.instance.sandbox.push_object
 
-        get_label : Proc(JSON::Any, JSON::Any) = ->(argument : JSON::Any) { JSON::Any.new(widget.label) }
+        get_label = ->(argument : JSON::Any) { JSON::Any.new(widget.label) }
         set_label = ->(argument : JSON::Any) { widget.label = argument.to_s; JSON::Any.new(widget.label) }
         get_has_frame = ->(argument : JSON::Any) { JSON::Any.new(widget.has_frame) }
         set_has_frame = ->(argument : JSON::Any) { widget.has_frame = argument.as_bool; JSON::Any.new(widget.has_frame) }
@@ -15,6 +15,11 @@ module Murg
         get_use_underline = ->(argument : JSON::Any) { JSON::Any.new(widget.use_underline) }
         set_use_underline = ->(argument : JSON::Any) { widget.use_underline = argument.as_bool; JSON::Any.new(widget.use_underline) }
 
+        # get_id = ->(argument : JSON::Any) { id = Murg::Registry.instance.find(widget); JSON::Any.new(id) }
+        # set_id = ->(argument : JSON::Any) { Murg::Registry.instance.update(widget.name, argument.to_s); widget.name = argument.to_s; argument }
+
+        # build_callback("getId", 0, get_id)
+        # build_callback("setId", 1, set_id)
         build_callback("getLabel", 0, get_label)
         build_callback("setLabel", 1, set_label)
         build_callback("getHasFrame", 0, get_has_frame)
@@ -25,7 +30,7 @@ module Murg
         build_callback("setUseUnderline", 1, set_use_underline)
 
         Engine.instance.sandbox.put_global_string(button.id)
-        Engine.instance.register_component(id: button.id, type: kind, class_name: button.class_name, available_callbacks: available_callbacks)
+        # Engine.instance.register_component(id: button.id, type: kind, class_name: button.class_name, available_callbacks: available_callbacks)
       end
     end
   end
