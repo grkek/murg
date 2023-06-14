@@ -23,13 +23,11 @@ module Murg
 
         widget = Gtk::Label.new(name: label.id, label: text, halign: label.horizontal_alignment, valign: label.vertical_alignment, wrap: true)
 
-        Macros::Label.build_callbacks
-
         register_events(widget)
-        register_component(widget, label.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, label.class_name)
 
+        register_component(widget, label.class_name, @kind)
         widget
       end
     end

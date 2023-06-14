@@ -77,7 +77,7 @@ module Murg
 
           @mutex.synchronize do
             if request.processing == JavaScript::Message::Processing::EVENT
-              Registry.instance.process_event(request.id)
+              Registry.instance.refresh_state(request.id)
             end
 
             if source_code = request.source_code

@@ -35,12 +35,10 @@ module Murg
 
         widget.destroy_signal.connect(->exit)
 
-        Macros::Window.build_callbacks
-
         register_events(widget)
-        register_component(widget, window.class_name)
         add_class_to_css(widget, window.class_name)
 
+        register_component(widget, window.class_name, @kind)
         widget
       end
     end

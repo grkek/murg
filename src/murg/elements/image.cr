@@ -32,13 +32,11 @@ module Murg
 
         widget = Gtk::Image.new(name: image.id, file: image.file, halign: image.horizontal_alignment, valign: image.vertical_alignment)
 
-        Macros::Image.build_callbacks
-
         register_events(widget)
-        register_component(widget, image.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, image.class_name)
 
+        register_component(widget, image.class_name, @kind)
         widget
       end
     end

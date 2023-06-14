@@ -2,32 +2,32 @@ module Murg
   module JavaScript
     module StandardLibrary
       module ElementDefinitions
-        class Box < Definition
+        class Label < Definition
           property sandbox : Duktape::Sandbox
 
           def initialize(@sandbox : Duktape::Sandbox)
-            @sandbox.eval_mutex! "std.element.box = {};"
+            @sandbox.eval_mutex! "std.element.label = {};"
           end
 
           def name : String
-            "Box"
+            "Label"
           end
 
           def definition_name : String
-            "box"
+            "label"
           end
 
           def description : String
-            "Box definition to provides functions to work with boxes."
+            "Label definition to provides functions to work with labels."
           end
 
           def register_definitions
-            @sandbox.push_global_proc("stdElementBoxCreate", 1) do |ptr|
+            @sandbox.push_global_proc("stdElementLabelCreate", 1) do |ptr|
               env = ::Duktape::Sandbox.new(ptr)
 
               begin
                 pointer = ::Box(Gtk::Widget).unbox(env.require_pointer(0))
-                element = Elements::Box.new({} of String => JSON::Any, [] of Elements::Node)
+                element = Elements::Label.new({} of String => JSON::Any, [] of Elements::Node)
 
                 widget = element.build_widget(pointer)
 
@@ -41,8 +41,8 @@ module Murg
             end
 
             @sandbox.eval_mutex! <<-JS
-              std.element.box.create = function(element) {
-                id = stdElementBoxCreate(element);
+              std.element.label.create = function(element) {
+                id = stdElementLabelCreate(element);
                 return globalThis[id];
               };
             JS

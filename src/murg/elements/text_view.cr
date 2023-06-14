@@ -25,13 +25,11 @@ module Murg
         widget = Gtk::TextView.new(name: text_view.id, halign: text_view.horizontal_alignment, valign: text_view.vertical_alignment)
         widget.buffer.set_text(text, text.size)
 
-        Macros::TextView.build_callbacks
-
         register_events(widget)
-        register_component(widget, class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, class_name)
 
+        register_component(widget, class_name, @kind)
         widget
       end
     end

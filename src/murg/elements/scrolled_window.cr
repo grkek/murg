@@ -22,13 +22,11 @@ module Murg
 
         widget = Gtk::ScrolledWindow.new(name: scrolled_window.id, halign: scrolled_window.horizontal_alignment, valign: scrolled_window.vertical_alignment)
 
-        Macros::ScrolledWindow.build_callbacks
-
         register_events(widget)
-        register_component(widget, scrolled_window.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, scrolled_window.class_name)
 
+        register_component(widget, scrolled_window.class_name, @kind)
         widget
       end
     end

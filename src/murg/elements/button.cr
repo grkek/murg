@@ -27,13 +27,12 @@ module Murg
         text = children.first.as(Text).content.to_s if children.size != 0
         widget = Gtk::Button.new(name: button.id, label: text, has_frame: button.has_frame?, halign: button.horizontal_alignment, valign: button.vertical_alignment)
 
-        Macros::Button.build_callbacks
-
         register_events(widget)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, button.class_name)
 
-        register_component(widget, button.class_name)
+        register_component(widget, button.class_name, @kind)
+
         widget
       end
     end

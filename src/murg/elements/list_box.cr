@@ -22,13 +22,11 @@ module Murg
 
         widget = Gtk::ListBox.new(name: list_box.id, halign: list_box.horizontal_alignment, valign: list_box.vertical_alignment)
 
-        Macros::ListBox.build_callbacks
-
         register_events(widget)
-        register_component(widget, list_box.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, list_box.class_name)
 
+        register_component(widget, list_box.class_name, @kind)
         widget
       end
     end

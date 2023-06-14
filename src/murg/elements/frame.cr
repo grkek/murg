@@ -26,13 +26,11 @@ module Murg
 
         widget = Gtk::Frame.new(name: frame.id, label: frame.text, halign: frame.horizontal_alignment, valign: frame.vertical_alignment)
 
-        Macros::Frame.build_callbacks
-
         register_events(widget)
-        register_component(widget, frame.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, frame.class_name)
 
+        register_component(widget, frame.class_name, @kind)
         widget
       end
     end

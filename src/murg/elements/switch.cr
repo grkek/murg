@@ -26,13 +26,11 @@ module Murg
 
         widget = Gtk::Switch.new(name: switch.id, halign: switch.horizontal_alignment, valign: switch.vertical_alignment, state: switch.state?)
 
-        Macros::Switch.build_callbacks
-
         register_events(widget)
-        register_component(widget, switch.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, switch.class_name)
 
+        register_component(widget, switch.class_name, @kind)
         widget
       end
     end

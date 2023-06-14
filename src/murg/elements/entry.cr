@@ -35,13 +35,11 @@ module Murg
 
         widget = Gtk::Entry.new(name: entry.id, text: entry.text, placeholder_text: entry.place_holder, invisible_char: entry.password_character.try(&.bytes.first.to_u32), visibility: entry.visible?, halign: entry.horizontal_alignment, valign: entry.vertical_alignment)
 
-        Macros::Entry.build_callbacks
-
         register_events(widget)
-        register_component(widget, entry.class_name)
         containerize(parent, widget, container_attributes)
         add_class_to_css(widget, entry.class_name)
 
+        register_component(widget, entry.class_name, @kind)
         widget
       end
     end

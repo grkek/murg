@@ -37,6 +37,7 @@ module Murg
               file: __FILE__,
               line: __LINE__,
               processing: JavaScript::Message::Processing::RAW,
+              event_name: nil,
               source_code: script)
 
             socket.puts(request.to_json)
